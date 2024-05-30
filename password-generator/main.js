@@ -4,6 +4,9 @@ let copyBtn = document.querySelector('.copyBtn');
 let retrievedArray = JSON.parse(localStorage.getItem('history'));
 var historyList = document.querySelector(".tree");
 let history = [];
+let copiedText = "";
+let notificationBtn = document.querySelector('.notifBtn');
+const notificationElement = document.querySelector('.notification');
 
 
 function getRandomCharOrDigit() {
@@ -25,7 +28,7 @@ function getRandomLength(min, max) {
 }
 
 function generatePassword() {
-    copyBtn.style.display = 'block';
+    copyBtn.style.opacity = '1';
     var randomLength = getRandomLength(4, 15);
     let generatedPassword = "";
     for (let index = 0; index < randomLength; index++) {
@@ -37,43 +40,103 @@ function generatePassword() {
 
 // copy function
 function copyFunc() {
-    let copiedText = gainedText.innerHTML;
-    if(retrievedArray!=null){
+
+    //historyList.classList.remove("active");
+
+    copiedText = gainedText.innerHTML;
+    if (retrievedArray != null) {
         history = retrievedArray;
     }
+    console.log("Gained text: " + copiedText);
 
-    history.push(copiedText);
-    navigator.clipboard.writeText(gainedText.innerHTML);
+    addElementToHistoryArray(copiedText);
+    navigator.clipboard.writeText(copiedText);
+    notification(copiedText);
     console.log("");
     localStorage.setItem('history', JSON.stringify(history));
-
-    var newItem = document.createElement("li");
-    var textNode = document.createTextNode(copiedText);
-    newItem.appendChild(textNode);
-    historyList.appendChild(newItem);
-
-    alert("Пароль " + copiedText + " скопирован и добавен в историю");
 }
 
 function showHistoryArray() {
 
-    resetHistory();
-    retrievedArray.forEach(element => {
-        var newItem = document.createElement("li");
-        var textNode = document.createTextNode(element);
-        newItem.appendChild(textNode);
-        historyList.appendChild(newItem);
-        console.log(element);
-    });
+    if (retrievedArray != null) {
 
+        resetHistory();
 
+        retrievedArray.forEach(element => {
+            var newItem = document.createElement("li");
+            var textNode = document.createTextNode(element);
+            var button = document.createElement("button");
+            button.innerText = "copy";
+            button.addEventListener("click", copyFromLi);
+            newItem.appendChild(textNode);
+            newItem.appendChild(button);
+
+            historyList.appendChild(newItem);
+            console.log(element);
+        });
+    }
     historyList.classList.toggle("active");
 }
 
-function resetHistory(){
+function addElementToHistoryArray(element) {
+    if (!checkHistoryDuplicates(element) && element.length > 1) {
+        var newItem = document.createElement("li");
+        var textNode = document.createTextNode(element);
+        var button = document.createElement("button");
+        button.innerText = "copy";
+        button.addEventListener("click", copyFromLi);
+        newItem.appendChild(textNode);
+        newItem.appendChild(button);
+
+        historyList.appendChild(newItem);
+        history.push(element);
+        console.log("Пароль " + copiedText + " скопирован и добавен в историю");
+    }
+}
+
+function resetHistory() {
     historyList.innerHTML = "";
 }
 
+function copyFromLi() {
+    var textToCopy = this.parentElement.textContent.trim();
+    var trimmedText = textToCopy.slice(0, -4);
+    navigator.clipboard.writeText(trimmedText);
+    notification(trimmedText);
+    gainedText.innerHTML = "";
+    copyBtn.style.opacity = "0";
+    console.log("скопировал нахуй " + trimmedText);
+}
 
 
+function checkHistoryDuplicates(element) {
+    if (history.includes(element)) {
+        //console.log("Элемент в массиве уже есть");
+        return true;
+    }
+    //console.log("Нету");
 
+    return false;
+}
+
+function notification(text) {
+    let notificationText = `${text} скопирован!`;
+    notificationElement.innerHTML = notificationText;
+    runAnimation();
+}
+
+function runAnimation() {
+    console.log("Run anim")
+    notificationElement.style.top = '-50px';
+    notificationElement.style.opacity = '1';
+
+    setTimeout(() => {
+        notificationElement.style.top = '-50';
+        notificationElement.style.opacity = '0.4';
+    }, 200);
+
+    setTimeout(() => {
+        notificationElement.style.top = '-50';
+        notificationElement.style.opacity = '0';
+    }, 500);
+}
