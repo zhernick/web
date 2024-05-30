@@ -10,16 +10,21 @@ const notificationElement = document.querySelector('.notification');
 
 
 function getRandomCharOrDigit() {
-    // Генерируем случайно 0 (цифра) или 1 (буква)
-    let randomType = Math.floor(Math.random() * 2);
+    // Генерируем случайно 0 (цифра) или 1 (буква) или 2 (символ)
+    let randomType = Math.floor(Math.random() * 3);
+    console.log(randomType);
 
     if (randomType === 0) {
         // Генерируем цифру от 0 до 9
         return Math.floor(Math.random() * 10).toString();
-    } else {
+    } else if (randomType === 1) {
         // Генерируем случайную букву в верхнем или нижнем регистре
         const charCode = Math.random() < 0.5 ? 65 + Math.floor(Math.random() * 26) : 97 + Math.floor(Math.random() * 26);
         return String.fromCharCode(charCode);
+    } else {
+        const specialCharacters = '!@#$%^&*()-_=+[{]}|;:,<.>/?';
+        const randomIndex = Math.floor(Math.random() * specialCharacters.length);
+        return specialCharacters.charAt(randomIndex);
     }
 }
 
@@ -29,7 +34,7 @@ function getRandomLength(min, max) {
 
 function generatePassword() {
     copyBtn.style.opacity = '1';
-    var randomLength = getRandomLength(4, 15);
+    var randomLength = getRandomLength(6, 15);
     let generatedPassword = "";
     for (let index = 0; index < randomLength; index++) {
         generatedPassword += getRandomCharOrDigit();
