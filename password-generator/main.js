@@ -127,16 +127,16 @@ function notification(text) {
 
 function runAnimation() {
     console.log("Run anim")
-    notificationElement.style.top = '-50px';
+    notificationElement.style.top = '80px';
     notificationElement.style.opacity = '1';
 
     setTimeout(() => {
-        notificationElement.style.top = '-50';
+        notificationElement.style.top = '80px';
         notificationElement.style.opacity = '0.4';
     }, 200);
 
     setTimeout(() => {
-        notificationElement.style.top = '-50';
+        notificationElement.style.top = '80px';
         notificationElement.style.opacity = '0';
     }, 500);
 }

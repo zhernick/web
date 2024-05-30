@@ -24,8 +24,8 @@ body {
     opacity: 1;
     text-align: center;
     position: absolute;
-    top: -50px;
-    left: 50%;
+    top:  -50px;
+    left:  50%;
     transform: translateX(-50%);
     color: indianred;
     opacity: 0;
