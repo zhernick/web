@@ -8,12 +8,20 @@
 </head>
 <body>
     <div class="passwordGenerator">
+        <audio class="music">
+            <source src="HochuPizzi.mp3" type="mp3">
+        </audio>
+        <audio id="gimnMusic" src="gimn-rossii-gimn-rossii-so-slovam2.mp3" loop></audio>
         <h2 class="notification">notification</h2>
         <h1 class="tittle">Password generator</h1>
         <p class="gainedText" id="gainedText"></p>
         <button class="btn copyBtn notifBtn" onclick="copyFunc()">Copy</button>
         <button class="btn" onclick="generatePassword()" type="button">Generate</button>
         <button class="btn" onclick="showHistoryArray()">Show history</button>
+        <div class="musicBtns">
+            <button class="btn musicBtn" id="randMusicBtn" onclick="randomMusic()">Random</button>
+            <button class="btn musicBtn" id="gimnBtn" onclick="gimn()">Rus</button>
+        </div>
 
         <ul class="tree">
             

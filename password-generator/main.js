@@ -8,6 +8,11 @@ let copiedText = "";
 let notificationBtn = document.querySelector('.notifBtn');
 const notificationElement = document.querySelector('.notification');
 
+const randMusicBtn = document.getElementById('randMusicBtn');
+const gimnBtn = document.getElementById('gimnBtn');
+const randMusic = document.querySelectorAll('randMusic');
+const gimnMusic = document.getElementById('gimnMusic');
+
 
 function getRandomCharOrDigit() {
     // Генерируем случайно 0 (цифра) или 1 (буква) или 2 (символ)
@@ -84,7 +89,7 @@ function showHistoryArray() {
 }
 
 function addElementToHistoryArray(element) {
-    if (!checkHistoryDuplicates(element) && element.length > 1) {
+    if (!checkHistoryDuplicates(element) & element.length > 1) {
         var newItem = document.createElement("li");
         var textNode = document.createTextNode(element);
         var button = document.createElement("button");
@@ -95,7 +100,7 @@ function addElementToHistoryArray(element) {
 
         historyList.appendChild(newItem);
         history.push(element);
-        console.log("Пароль " + copiedText + " скопирован и добавен в историю");
+        console.log(`Пароль ${copiedText} скопирован и добавен в историю`);
     }
 }
 
@@ -125,23 +130,52 @@ function checkHistoryDuplicates(element) {
 }
 
 function notification(text) {
-    let notificationText = `${text} скопирован!`;
-    notificationElement.innerHTML = notificationText;
-    runAnimation();
+    if (text.length > 1) {
+        let notificationText = `${text} </br> скопирован!`;
+        notificationElement.innerHTML = notificationText;
+        runAnimation();
+    }
 }
 
 function runAnimation() {
     console.log("Run anim")
-    notificationElement.style.top = '80px';
+    //notificationElement.style.top = '80px';
     notificationElement.style.opacity = '1';
 
-    setTimeout(() => {
-        notificationElement.style.top = '80px';
-        notificationElement.style.opacity = '0.4';
-    }, 200);
+    // setTimeout(() => {
+    //     notificationElement.style.top = '80px';
+    //     notificationElement.style.opacity = '0.4';
+    // }, 200);
 
-    setTimeout(() => {
-        notificationElement.style.top = '80px';
-        notificationElement.style.opacity = '0';
-    }, 500);
+    // setTimeout(() => {
+    //     notificationElement.style.top = '80px';
+    //     notificationElement.style.opacity = '0';
+    // }, 500);
 }
+
+function gimn(){
+    let isPlaying = false;
+
+
+    if (isPlaying) {
+        gimnMusic.pause();
+        //toggleMusicBtn.textContent = 'Включить музыку';
+    } else {
+        gimnMusic.play();
+        //toggleMusicBtn.textContent = 'Выключить музыку';
+    }
+    isPlaying = !isPlaying;
+}
+
+let isPlaying = false;
+function randomMusic(){
+    const audioFiles = ['HochuPizzi.mp3', 'videoplayback.mp3', 'lion.mp3', 'polnomVse.mp3'];
+    const randomIndex = Math.floor(Math.random() * audioFiles.length);
+    const randomAudio = audioFiles[randomIndex];
+    
+    const musicPlayer = document.querySelector('.music');
+    musicPlayer.src = randomAudio;
+    musicPlayer.play();
+}
+
+
